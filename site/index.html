@@ -5,6 +5,22 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Hello Medicare</title>
   <link rel="stylesheet" href="styles.css">
+  <!-- Datadog RUM (US1-FED site). Token injected at deploy; inert when placeholders. -->
+  <script>
+    window.DD_RUM_CONFIG = {
+      clientToken: "__DD_CLIENT_TOKEN__",
+      applicationId: "__DD_APP_ID__",
+      site: "ddog-gov.com",
+      service: "hello-medicare-web",
+      env: "test",
+    };
+  </script>
+  <script src="vendor/datadog-rum.js" defer></script>
+  <!-- LaunchDarkly client SDK. Env key injected at deploy; inert when placeholder. -->
+  <script>
+    window.LD_CONFIG = { clientSideId: "__LD_CLIENT_SIDE_ID__", flags: ["new-banner"] };
+  </script>
+  <script src="vendor/ld-init.js" defer></script>
 </head>
 <body>
   <header class="band">
@@ -25,7 +41,12 @@
     </section>
     <section id="instrumentation">
       <h2>Instrumentation</h2>
-      <p>None yet — feature flags and observability arrive in the next gated pull request.</p>
+      <p>Feature flags via LaunchDarkly; Real User Monitoring via Datadog (US1-FED).
+      Client keys are injected at deploy — placeholders below never hold real values.</p>
+      <ul>
+        <li><span id="flag-banner" hidden>You are seeing the <strong>new-banner</strong> flag variation.</span></li>
+        <li>RUM session tracking active when a client token is configured.</li>
+      </ul>
     </section>
   </main>
   <footer>hello-medicare-web · CMS WETG onboarding-agent demo</footer>
